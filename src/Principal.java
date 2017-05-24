@@ -5,18 +5,19 @@ import javax.swing.JOptionPane;
 public class Principal {
 
 	public static void main(String[] args) {// inicio da funcao principal
-		PessoaFisica pessoaFisica = new PessoaFisica();
-		PessoaJuridica pessoaJuridica = new PessoaJuridica();
-
+		ContratoResidencial pessoaFisica = new ContratoResidencial();
+		ContratoEmpresarial pessoaJuridica = new ContratoEmpresarial();
+		Cliente cliente = new Cliente();
+		
 		int opcao = 0;
+		
 		boolean ok = false;
 		
 		do{
 			do {
 				try {
-					opcao = Integer
-							.parseInt(JOptionPane.showInputDialog("**SEGURADORA**\n\nFazer Cadastro\n\n1-Pessoa Fisica \n2-Pessoa Juridica\n\n0-Sair"));
-					if (opcao == 1 || opcao == 2) {
+					opcao = Integer.parseInt(JOptionPane.showInputDialog("**SEGURADORA**\n\n3-Fazer Cadastro Pessoa Fisica \n2-Fazer Cadastro Pessoa Juridica\n1-Abrir Contrato\n0-Sair"));
+					if (opcao == 1 || opcao == 2|| opcao==3) {
 						ok = true;
 					}
 					if(opcao==0){
@@ -31,22 +32,27 @@ public class Principal {
 	
 				}
 			} while (ok != true);
-	
+		       
 			switch (opcao) {// inicio do switch
-			case 1:
+			case 3:
 	
 				pessoaFisica.cadastro();
 				pessoaFisica.calculoSeguroResidencial();
-				pessoaFisica.mostraContratoResidencial();
-	
+			    pessoaFisica.salvarContrato();
+				
 				break;
 	
 			case 2:
 				pessoaJuridica.cadastro();
 				pessoaJuridica.calculoSeguroEmpresarial();
-				pessoaJuridica.mostraContratoEmpresarial();
-	
+				pessoaJuridica.salvarContrato();
+				
 				break;
+			
+			case 1:
+				cliente.mostraContrato();
+				break;
+
 			}// fim do switch
 		}while(opcao!=0);
 	}
