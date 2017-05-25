@@ -67,6 +67,8 @@ public class ContratoResidencial extends PessoaFisica {
 				}
 			} catch (IOException ex) {
 				JOptionPane.showMessageDialog(null, "Voce digitou uma opcao invalida!");
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null, "Voce digitou uma opcao invalida!");
 			}
 		} while (ok != true);
 
@@ -83,6 +85,8 @@ public class ContratoResidencial extends PessoaFisica {
 					throw new IOException();
 				}
 			} catch (IOException ex) {
+				JOptionPane.showMessageDialog(null, "Voce digitou uma opcao invalida!");
+			} catch (NumberFormatException ex) {
 				JOptionPane.showMessageDialog(null, "Voce digitou uma opcao invalida!");
 			}
 		} while (ok != true);

@@ -105,6 +105,8 @@ public class ContratoEmpresarial extends PessoaJuridica {
 				}
 			} catch (IOException ex) {
 				JOptionPane.showMessageDialog(null, "Voce digitou uma opcao invalida!");
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null, "Voce digitou uma opcao invalida!");
 			}
 
 		} while (ok != true);
