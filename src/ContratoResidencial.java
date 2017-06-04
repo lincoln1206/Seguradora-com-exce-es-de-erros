@@ -210,8 +210,8 @@ public class ContratoResidencial extends Cliente implements Interface {
 
 				FileWriter arq = new FileWriter(cpf + ".txt");
 				PrintWriter gravarArq = new PrintWriter(arq);
-				gravarArq.printf("**CONTRATO**%n%nNome do cliente: " + cliente + "%nCPF: " + cpf + "%nEndereco: "
-						+ endereco + "%n" + tipoM + "%nZona: " + zonaM + "%nValor do imovel: " + f.format(valor_imovel)
+				gravarArq.printf("**CONTRATO**%n%nNome do cliente: " + cliente + "%nCPF: " + cpf + "%nEndereço: "
+						+ endereco + "%nTipo de residência: " + tipoM + "%nZona: " + zonaM + "%nValor do imóvel: " + f.format(valor_imovel)
 						+ "%nValor do seguro: " + f.format(seguro));
 
 				JOptionPane.showMessageDialog(null, "Contrato salvo com sucesso como " + cpf + ".txt !");

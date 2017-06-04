@@ -262,9 +262,9 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 				FileWriter arq = new FileWriter(cnpj + ".txt");
 				PrintWriter gravarArq = new PrintWriter(arq);
-				gravarArq.printf("**CONTRATO**%n%nNome do cliente: " + cliente + "%nCNPJ: " + cnpj + "%nEndereco: "
-						+ endereco + "%nRamo: " + ramoM + "%nValor do imovel: " + f.format(valor_imovel)
-						+ "%nNumero de Funcionarios: " + numero_funcionarios + "%nNumero de visitas: " + numero_visitas
+				gravarArq.printf("**CONTRATO**%n%nNome do cliente: " + cliente + "%nCNPJ: " + cnpj + "%nEndereço: "
+						+ endereco + "%nRamo: " + ramoM + "%nValor do imóvel: " + f.format(valor_imovel)
+						+ "%nNúmero de Funcionários: " + numero_funcionarios + "%nNúmero de visitas: " + numero_visitas
 						+ "%nValor do seguro: " + f.format(seguro));
 
 				JOptionPane.showMessageDialog(null, "Contrato salvo com sucesso como " + cnpj + ".txt !");
