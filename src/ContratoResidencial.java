@@ -3,93 +3,165 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
-
 import javax.swing.JOptionPane;
 
-public class ContratoResidencial extends PessoaFisica {
+public class ContratoResidencial extends Cliente implements Interface {
 	ChecarEntrada checar = new ChecarEntrada();
 	ValidarCPF_CNPJ vCPF = new ValidarCPF_CNPJ();
 
-	private String valorImovelChecar;
+	private int zona;
+	private int tipo;
+	private String cpf;
 	private String tipoM;
 	private String zonaM;
-	private boolean ok = false;
 
 	public void cadastro() {
-		cliente = JOptionPane.showInputDialog("Digite o nome do cliente:");
-
 		do {
-			try {
-				setCpf(JOptionPane.showInputDialog("Digite o CPF do cliente:"));
+			cancelar = false;
+			ok = false;
+			saiu = false;
+			// NOME DO CLIENTE
+			/////////////////
+			do {
+				try {
+					cliente = JOptionPane.showInputDialog("Digite o nome do cliente:");
 
-				if (vCPF.isValidCPF(getCpf()) == true) {
-					ok = true;
-				} else {
-					throw new NumberFormatException();
+					if (cliente != null && cliente.length() > 0) {
+						ok = true;
+					} else if (cliente.length() == 0 && cliente != null) {
+						throw new DigitouNada();
+					}
+				} catch (NullPointerException ex) {
+					cancelar = true;
+					saiu = true;
+					break;
+				} catch (DigitouNada e) {
 				}
-			} catch (NumberFormatException ex) {
-				JOptionPane.showMessageDialog(null, "Você digitou um CPF inválido!");
+			} while (ok == false);
+
+			if (cancelar == true) {
+				break;
 			}
 
-		} while (ok != true);
+			ok = false;
 
-		ok = false;
+			// CPF DO CLIENTE
+			////////////////
 
-		setEndereco(JOptionPane.showInputDialog("Digite o endereco do cliente:"));
+			do {
+				try {
+					cpf = JOptionPane.showInputDialog("Digite o CPF do cliente:");
 
-		do {
-			try {
-				valor_imovel = Float.parseFloat(JOptionPane.showInputDialog("Digite o valor do imovel:"));
-
-				valorImovelChecar = String.valueOf(valor_imovel);
-
-				if (checar.isCurrency(valorImovelChecar) == true) {
-					ok = true;
-				} else {
-					throw new NumberFormatException();
+					File check = new File(cpf + ".txt");
+					if (check.exists() == true) {
+						throw new IOException();
+					} else if (vCPF.isValidCPF(cpf) == true && cpf != null && cpf.length() > 0) {
+						ok = true;
+					} else if (vCPF.isValidCPF(cpf) == false && cpf.equals("") == false) {
+						throw new CPFinvalido();
+					} else if (cpf.length() == 0) {
+						throw new DigitouNada();
+					}
+				} catch (CPFinvalido ex) {
+				} catch (IOException ex) {
+					JOptionPane.showMessageDialog(null, "Já existe um contrato para esse CPF!");
+				} catch (NullPointerException ex) {
+					cancelar = true;
+					saiu = true;
+					break;
+				} catch (DigitouNada e) {
 				}
-			} catch (NumberFormatException ex) {
-				JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito!");
+			} while (ok == false);
+
+			if (cancelar == true) {
+				break;
 			}
 
-		} while (ok != true);
+			ok = false;
 
-		ok = false;
+			// ENDERECO DO CLIENTE
+			/////////////////////
 
-		do {
-			try {
-				setZona(Integer.parseInt(JOptionPane.showInputDialog("Digite a zona (1-urbana,2-suburbana,3-rural):")));
+			do {
+				try {
+					endereco = JOptionPane.showInputDialog("Digite o endereco do cliente:");
 
-				if (getZona() == 1 || getZona() == 2 || getZona() == 3) {
-					ok = true;
-				} else {
-					throw new IOException();
+					if (endereco != null && endereco.length() > 0) {
+						ok = true;
+					} else if (endereco.length() == 0 && endereco != null) {
+						throw new DigitouNada();
+					}
+				} catch (NullPointerException ex) {
+					cancelar = true;
+					saiu = true;
+					break;
+				} catch (DigitouNada e) {
 				}
-			} catch (IOException ex) {
-				JOptionPane.showMessageDialog(null, "Voce digitou uma opcao invalida!");
-			} catch (NumberFormatException ex) {
-				JOptionPane.showMessageDialog(null, "Voce digitou uma opcao invalida!");
+			} while (ok == false);
+
+			if (cancelar == true) {
+				break;
 			}
-		} while (ok != true);
 
-		ok = false;
+			ok = false;
 
-		do {
-			try {
-				setTipo(Integer
-						.parseInt(JOptionPane.showInputDialog("Digite o tipo de residencia(1-casa,2-apartamento):")));
+			// VALOR DO IMOVEL DO CLIENTE
+			////////////////////////////
 
-				if (getTipo() == 1 || getTipo() == 2) {
-					ok = true;
-				} else {
-					throw new IOException();
+			do {
+				try {
+					valor_imovel = Float.parseFloat(JOptionPane.showInputDialog("Digite o valor do imovel:"));
+
+					check = String.valueOf(valor_imovel);
+
+					if (check != null && check.length() > 0 && checar.isCurrency(check) == true) {
+						ok = true;
+					}
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito ou não digitou nada!");
+				} catch (NullPointerException ex) {
+					cancelar = true;
+					saiu = true;
+					break;
 				}
-			} catch (IOException ex) {
-				JOptionPane.showMessageDialog(null, "Voce digitou uma opcao invalida!");
-			} catch (NumberFormatException ex) {
-				JOptionPane.showMessageDialog(null, "Voce digitou uma opcao invalida!");
+			} while (ok == false);
+
+			if (cancelar == true) {
+				break;
 			}
-		} while (ok != true);
+
+			// ZONA ONDE ESTA O IMOVEL DO CLIENTE
+			////////////////////////////////////
+
+			Object[] zonaEscolha = { "Urbana", "Suburbana", "Rural", "Cancelar" };
+
+			zona = JOptionPane.showOptionDialog(null, "Escolha a zona aonde a habitação se encontra:", "Seguradora",
+					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, zonaEscolha, zonaEscolha[0]);
+
+			if (zona == 3) {
+				cancelar = true;
+				saiu = true;
+			}
+
+			if (cancelar == true) {
+				break;
+			}
+
+			// TIPO DA RERSIDENCIA DO CLEINTE
+			////////////////////////////////
+			Object[] tipoEscolha = { "Casa", "Apartamento", "Cancelar" };
+
+			tipo = JOptionPane.showOptionDialog(null, "Escolha o tipo da habitação:", "Seguradora",
+					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, tipoEscolha, tipoEscolha[0]);
+
+			if (tipo == 2) {
+				cancelar = true;
+				saiu = true;
+			}
+
+			cancelar = true;
+
+		} while (cancelar == false);
 
 	}
 
@@ -97,15 +169,15 @@ public class ContratoResidencial extends PessoaFisica {
 
 		seguro += valor_imovel * 0.01;
 
-		if (getZona() == 1) {
+		if (zona == 0) {
 			seguro += valor_imovel * 0.01;
 		}
 
-		if (getZona() == 2) {
+		if (zona == 1) {
 			seguro += valor_imovel * 0.025;
 		}
 
-		if (getTipo() == 1) {
+		if (tipo == 0) {
 			seguro += valor_imovel * 0.005;
 		}
 	}
@@ -115,40 +187,36 @@ public class ContratoResidencial extends PessoaFisica {
 
 		try {
 
-			if (getZona() == 1) {
+			if (zona == 0) {
 				zonaM = "Urbana";
 			}
-			if (getZona() == 2) {
+			if (zona == 1) {
 				zonaM = "Suburbana";
 
 			}
-			if (getZona() == 3) {
+			if (zona == 2) {
 				zonaM = "Rural";
 			}
-			if (getTipo() == 1) {
+			if (tipo == 0) {
 				tipoM = "Casa";
 			}
-			if (getTipo() == 2) {
-				tipoM = "Predio";
+			if (tipo == 1) {
+				tipoM = "Prédio";
 			}
 
 			int opcao2 = JOptionPane.showOptionDialog(null, "Clique na operação a qual deseja realizar:", "Operação",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 			if (opcao2 == 0) {
-				File check = new File(getCpf() + ".txt");
-				if (check.exists() == true) {
-					JOptionPane.showMessageDialog(null,
-							"Ja existe um contrato com esse CPF!\nClique em OK para retornar ao menu");
-				} else if (check.exists() == false) {
-					FileWriter arq = new FileWriter(getCpf() + ".txt");
-					PrintWriter gravarArq = new PrintWriter(arq);
-					gravarArq.printf("**CONTRATO**%n%nNome do cliente: " + cliente + "%nCPF: " + getCpf()
-							+ "%nEndereco: " + getEndereco() + "%n" + tipoM + "%nZona: " + zonaM + "%nValor do imovel: "
-							+ f.format(valor_imovel) + "%nValor do seguro: " + f.format(seguro));
 
-					JOptionPane.showMessageDialog(null, "Contrato salvo com sucesso como " + getCpf() + ".txt !");
-					arq.close();
-				}
+				FileWriter arq = new FileWriter(cpf + ".txt");
+				PrintWriter gravarArq = new PrintWriter(arq);
+				gravarArq.printf("**CONTRATO**%n%nNome do cliente: " + cliente + "%nCPF: " + cpf + "%nEndereco: "
+						+ endereco + "%n" + tipoM + "%nZona: " + zonaM + "%nValor do imovel: " + f.format(valor_imovel)
+						+ "%nValor do seguro: " + f.format(seguro));
+
+				JOptionPane.showMessageDialog(null, "Contrato salvo com sucesso como " + cpf + ".txt !");
+				arq.close();
+
 			} else if (opcao2 == 1) {
 				JOptionPane.showMessageDialog(null, "Você não gerou o contrato!\nClique em OK para retornar ao menu");
 			}
@@ -156,4 +224,5 @@ public class ContratoResidencial extends PessoaFisica {
 			JOptionPane.showMessageDialog(null, "Erro ao salvar contrato!");
 		}
 	}
+
 }
