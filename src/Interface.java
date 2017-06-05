@@ -1,7 +1,8 @@
 public interface Interface {
 	
 	public void cadastro();
-	public void salvarContrato();
+	public void salvarCadastro();
+	public void gerarContrato();
 
 }
 

@@ -1,6 +1,8 @@
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
 import javax.swing.JOptionPane;
@@ -12,8 +14,8 @@ public class ContratoResidencial extends Cliente implements Interface {
 	private int zona;
 	private int tipo;
 	private String cpf;
-	private String[] tipoA = {"Casa","Apartamento"};
-	private String[] zonaA = {"Urbana", "Suburbana", "Rural"};
+	private String[] tipoA = { "Casa", "Apartamento" };
+	private String[] zonaA = { "Urbana", "Suburbana", "Rural" };
 	private String tipoM;
 	private String zonaM;
 
@@ -184,20 +186,36 @@ public class ContratoResidencial extends Cliente implements Interface {
 		}
 	}
 
-	public void salvarContrato() {
+	public void salvarCadastro() {
+		Pessoa c = new Pessoa(cliente, cpf, seguro,true);
+
+		try {
+
+			FileOutputStream fos = new FileOutputStream(cpf+".bin");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(c);
+
+			oos.close();
+			fos.close();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Não foi possível realizar o cadastro!");
+		}
+	}
+
+	public void gerarContrato() {
 		NumberFormat f = NumberFormat.getCurrencyInstance();
 
 		try {
 
 			int i;
-			
-			for(i=0;i<=2;i++){
+
+			for (i = 0; i <= 2; i++) {
 				if (zona == i) {
 					zonaM = zonaA[i];
 				}
 			}
-			
-			for(i=0;i<=1;i++){
+
+			for (i = 0; i <= 1; i++) {
 				if (tipo == i) {
 					tipoM = tipoA[i];
 				}
@@ -210,8 +228,8 @@ public class ContratoResidencial extends Cliente implements Interface {
 				FileWriter arq = new FileWriter(cpf + ".txt");
 				PrintWriter gravarArq = new PrintWriter(arq);
 				gravarArq.printf("**CONTRATO**%n%nNome do cliente: " + cliente + "%nCPF: " + cpf + "%nEndereço: "
-						+ endereco + "%nTipo de residência: " + tipoM + "%nZona: " + zonaM + "%nValor do imóvel: " + f.format(valor_imovel)
-						+ "%nValor do seguro: " + f.format(seguro));
+						+ endereco + "%nTipo de residência: " + tipoM + "%nZona: " + zonaM + "%nValor do imóvel: "
+						+ f.format(valor_imovel) + "%nValor do seguro: " + f.format(seguro));
 
 				JOptionPane.showMessageDialog(null, "Contrato salvo com sucesso como " + cpf + ".txt !");
 				arq.close();

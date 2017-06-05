@@ -1,5 +1,7 @@
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
@@ -242,8 +244,24 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 			seguro += valor_imovel * 0.005;
 		}
 	}
+	
+	public void salvarCadastro() {
+		Pessoa c = new Pessoa(cliente, cnpj, seguro,false);
 
-	public void salvarContrato() {
+		try {
+
+			FileOutputStream fos = new FileOutputStream(cnpj+".bin");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(c);
+
+			oos.close();
+			fos.close();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Não foi possível realizar o cadastro!");
+		}
+	}
+
+	public void gerarContrato() {
 		NumberFormat f = NumberFormat.getCurrencyInstance();
 
 		try {

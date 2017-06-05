@@ -1,9 +1,0 @@
-**CONTRATO**
-
-Nome do cliente: Lincoln
-CPF: 84096640468
-Endereço: rua
-Tipo de residência: Casa
-Zona: Urbana
-Valor do imóvel: R$ 54.156.164,00
-Valor do seguro: R$ 1.353.904,10

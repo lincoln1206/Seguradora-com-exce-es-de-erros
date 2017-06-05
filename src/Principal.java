@@ -7,29 +7,31 @@ public class Principal extends Cliente {
 		ContratoEmpresarial pessoaJuridica = new ContratoEmpresarial();
 		Cliente cliente = new Cliente();
 		Object[] menu = { "Fazer Cadastro Pessoa Fisica", "\nFazer Cadastro Pessoa Juridica", "Abrir Contrato",
-				"\nSair" };
+				"Ver Clientes Cadastrados", "\nSair" };
 
 		int opcao = 0;
 
 		do {
-			
+
 			opcao = JOptionPane.showOptionDialog(null, "***SEGURADORA***", "Seguradora", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.WARNING_MESSAGE, null, menu, menu[0]);
 
 			switch (opcao) {
 			case 0:
 				pessoaFisica.cadastro();
+				pessoaFisica.calculoSeguroResidencial();
+				pessoaFisica.salvarCadastro();
 				if (saiu == false) {
-					pessoaFisica.calculoSeguroResidencial();
-					pessoaFisica.salvarContrato();
+					pessoaFisica.gerarContrato();
 				}
 				break;
 
 			case 1:
 				pessoaJuridica.cadastro();
+				pessoaJuridica.calculoSeguroEmpresarial();
+				pessoaJuridica.salvarCadastro();
 				if (saiu == false) {
-					pessoaJuridica.calculoSeguroEmpresarial();
-					pessoaJuridica.salvarContrato();
+					pessoaJuridica.gerarContrato();
 				}
 				break;
 
@@ -38,9 +40,12 @@ public class Principal extends Cliente {
 				break;
 
 			case 3:
+				cliente.lerCadastro();
 				break;
-				
+			case 4:
+				break;
+
 			}
-		} while (opcao != 3);
+		} while (opcao != 4);
 	}
 }
