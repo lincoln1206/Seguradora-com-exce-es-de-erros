@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class Cliente {
 	public String cliente;
@@ -16,25 +19,22 @@ public class Cliente {
 		String nomeArq = JOptionPane.showInputDialog(null, "Informe o seu CPF/CNPJ:\n");
 
 		try {
-			if (nomeArq.equals("") == false) {
+			if (nomeArq != null && nomeArq.equals("") == false) {
+				JTextArea ta = new JTextArea(20, 20);
 				nomeArq = nomeArq + ".txt";
-				FileReader arq = new FileReader(nomeArq);
-				BufferedReader lerArq = new BufferedReader(arq);
-				String linha = lerArq.readLine();
-
-				while (linha != null) {
-					System.out.printf("%s\n", linha);
-					linha = lerArq.readLine();
-				}
-
-				arq.close();
-			} else if (nomeArq.equals("") == true) {
-				throw new NullPointerException();
+				ta.read(new FileReader(nomeArq), null);
+				ta.setEditable(false);
+				JOptionPane.showMessageDialog(null, new JScrollPane(ta));
+			} else if (nomeArq != null && nomeArq.equals("") == true) {
+				throw new DigitouNada();
 			}
 		} catch (NullPointerException ex) {
 
 		} catch (IOException ex) {
 			JOptionPane.showMessageDialog(null, "Arquivo não existe!");
+		} catch (IllegalArgumentException ex) {
+			JOptionPane.showMessageDialog(null, "Arquivo não existe!");
+		} catch (DigitouNada e) {
 		}
 	}
 }
