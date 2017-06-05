@@ -29,9 +29,9 @@ public class Cliente {
 		} catch (NullPointerException ex) {
 
 		} catch (IOException ex) {
-			JOptionPane.showMessageDialog(null, "Arquivo não existe!");
+			JOptionPane.showMessageDialog(null, "Arquivo de contrato não existe!");
 		} catch (IllegalArgumentException ex) {
-			JOptionPane.showMessageDialog(null, "Arquivo não existe!");
+			JOptionPane.showMessageDialog(null, "Arquivo de contrato não existe!");
 		} catch (DigitouNada e) {
 		}
 	}
