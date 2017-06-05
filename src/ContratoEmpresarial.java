@@ -14,6 +14,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 	private long numero_visitas;
 	private int ramo;
 	private String cnpj;
+	private String[] ramoA = { "Industria", "Comercio", "Agropecuaria" };
 	private String ramoM;
 
 	public void cadastro() {
@@ -246,19 +247,17 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 		NumberFormat f = NumberFormat.getCurrencyInstance();
 
 		try {
-			if (ramo == 1) {
-				ramoM = "Industria";
-			}
-			if (ramo == 2) {
-				ramoM = "Comercio";
-			}
-			if (ramo == 3) {
-				ramoM = "Agropecuaria";
+			int i;
+
+			for (i = 0; i <= 2; i++) {
+				if (ramo == i) {
+					ramoM = ramoA[i];
+				}
 			}
 
-			int opcao2 = JOptionPane.showOptionDialog(null, "Clique na operação a qual deseja realizar:", "Operação",
+			int opcao = JOptionPane.showOptionDialog(null, "Clique na operação a qual deseja realizar:", "Operação",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-			if (opcao2 == 0) {
+			if (opcao == 0) {
 
 				FileWriter arq = new FileWriter(cnpj + ".txt");
 				PrintWriter gravarArq = new PrintWriter(arq);
@@ -270,7 +269,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				JOptionPane.showMessageDialog(null, "Contrato salvo com sucesso como " + cnpj + ".txt !");
 				arq.close();
 
-			} else if (opcao2 == 1) {
+			} else if (opcao == 1) {
 				JOptionPane.showMessageDialog(null, "Você não gerou o contrato!\nClique em OK para retornar ao menu");
 
 			}

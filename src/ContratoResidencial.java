@@ -12,6 +12,8 @@ public class ContratoResidencial extends Cliente implements Interface {
 	private int zona;
 	private int tipo;
 	private String cpf;
+	private String[] tipoA = {"Casa","Apartamento"};
+	private String[] zonaA = {"Urbana", "Suburbana", "Rural"};
 	private String tipoM;
 	private String zonaM;
 
@@ -187,26 +189,23 @@ public class ContratoResidencial extends Cliente implements Interface {
 
 		try {
 
-			if (zona == 0) {
-				zonaM = "Urbana";
+			int i;
+			
+			for(i=0;i<=2;i++){
+				if (zona == i) {
+					zonaM = zonaA[i];
+				}
 			}
-			if (zona == 1) {
-				zonaM = "Suburbana";
-
-			}
-			if (zona == 2) {
-				zonaM = "Rural";
-			}
-			if (tipo == 0) {
-				tipoM = "Casa";
-			}
-			if (tipo == 1) {
-				tipoM = "Prédio";
+			
+			for(i=0;i<=1;i++){
+				if (tipo == i) {
+					tipoM = tipoA[i];
+				}
 			}
 
-			int opcao2 = JOptionPane.showOptionDialog(null, "Clique na operação a qual deseja realizar:", "Operação",
+			int opcao = JOptionPane.showOptionDialog(null, "Clique na operação a qual deseja realizar:", "Operação",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-			if (opcao2 == 0) {
+			if (opcao == 0) {
 
 				FileWriter arq = new FileWriter(cpf + ".txt");
 				PrintWriter gravarArq = new PrintWriter(arq);
@@ -217,7 +216,7 @@ public class ContratoResidencial extends Cliente implements Interface {
 				JOptionPane.showMessageDialog(null, "Contrato salvo com sucesso como " + cpf + ".txt !");
 				arq.close();
 
-			} else if (opcao2 == 1) {
+			} else if (opcao == 1) {
 				JOptionPane.showMessageDialog(null, "Você não gerou o contrato!\nClique em OK para retornar ao menu");
 			}
 		} catch (IOException e) {
