@@ -22,7 +22,7 @@ public class Cliente {
 				nomeArq = nomeArq + ".txt";
 				ta.read(new FileReader(nomeArq), null);
 				ta.setEditable(false);
-				JOptionPane.showMessageDialog(null, new JScrollPane(ta));
+				JOptionPane.showMessageDialog(null, new JScrollPane(ta),"Seguradora", 2, null);
 			} else if (nomeArq != null && nomeArq.equals("") == true) {
 				throw new DigitouNada();
 			}
