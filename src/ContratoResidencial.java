@@ -114,25 +114,34 @@ public class ContratoResidencial extends Cliente implements Interface {
 
 			do {
 				try {
-					valor_imovel = Float.parseFloat(JOptionPane.showInputDialog("Digite o valor do imovel:"));
+					check = JOptionPane.showInputDialog("Digite o valor do imovel:");
 
-					check = String.valueOf(valor_imovel);
-
-					if (check != null && check.length() > 0 && checar.isCurrency(check) == true) {
+					if (check != null && check.length() > 0 && check.length() <= 19 && checar.isCurrency(check) == true) {
 						ok = true;
+					}else if (check.length() == 0 && check != null) {
+						throw new DigitouNada();
+					} else if (check != null && checar.isNumeric(check) == false) {
+						throw new NumberFormatException();
+					}else if(check.length() > 19){
+						throw new NumberFormatException();
 					}
 				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito ou não digitou nada!");
+					JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito!");
 				} catch (NullPointerException ex) {
 					cancelar = true;
 					saiu = true;
 					break;
+				} catch (DigitouNada e) {
 				}
 			} while (ok == false);
 
 			if (cancelar == true) {
 				break;
+			}else{
+				valor_imovel = Float.parseFloat(check);
+				System.out.println(valor_imovel);
 			}
+
 
 			// ZONA ONDE ESTA O IMOVEL DO CLIENTE
 			////////////////////////////////////

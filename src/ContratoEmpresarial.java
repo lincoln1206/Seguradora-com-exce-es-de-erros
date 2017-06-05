@@ -113,24 +113,32 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 			do {
 				try {
-					valor_imovel = Float.parseFloat(JOptionPane.showInputDialog("Digite o valor do imovel:"));
+					check = JOptionPane.showInputDialog("Digite o valor do imovel:");
 
-					check = String.valueOf(valor_imovel);
-
-					if (check != null && check.length() > 0 && checar.isCurrency(check) == true) {
+					if (check != null && check.length() > 0 && check.length() <= 13 && checar.isCurrency(check) == true) {
 						ok = true;
+					}else if (check.length() == 0 && check != null) {
+						throw new DigitouNada();
+					} else if (check != null && checar.isNumeric(check) == false) {
+						throw new NumberFormatException();
+					}else if(check.length() > 13){
+						throw new NumberFormatException();
 					}
 				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito ou não digitou nada!");
+					JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito!");
 				} catch (NullPointerException ex) {
 					cancelar = true;
 					saiu = true;
 					break;
+				} catch (DigitouNada e) {
 				}
 			} while (ok == false);
 
 			if (cancelar == true) {
 				break;
+			}else{
+				valor_imovel = Float.parseFloat(check);
+				System.out.println(valor_imovel);
 			}
 
 			ok = false;
@@ -139,26 +147,32 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 			//////////////////////////////////////////////
 			do {
 				try {
-					numero_funcionarios = Integer
-							.parseInt(JOptionPane.showInputDialog("Digite o numero de funcionarios:"));
+					check = JOptionPane.showInputDialog("Digite o numero de funcionarios:");
 
-					check = String.valueOf(numero_funcionarios);
-
-					if (check != null && check.length() > 0 && checar.isNumeric(check) == true) {
+					if (check != null && check.length() > 0 && check.length() <= 7 && checar.isNumeric(check) == true) {
 						ok = true;
+					} else if (check.length() == 0 && check != null) {
+						throw new DigitouNada();
+					} else if (check != null && checar.isNumeric(check) == false) {
+						throw new NumberFormatException();
+					}else if(check.length() > 7){
+						throw new NumberFormatException();
 					}
-
-				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito ou não digitou nada!");
 				} catch (NullPointerException ex) {
 					cancelar = true;
 					saiu = true;
 					break;
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito!");
+				} catch (DigitouNada e) {
 				}
 			} while (ok == false);
 
 			if (cancelar == true) {
 				break;
+			} else {
+				numero_funcionarios = Integer.parseInt(check);
+				System.out.println(numero_funcionarios);
 			}
 
 			ok = false;
@@ -167,25 +181,32 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 			////////////////////////////////////////////////
 			do {
 				try {
-					numero_visitas = Integer.parseInt(JOptionPane.showInputDialog("Digite o numero de visitas:"));
+					check = JOptionPane.showInputDialog("Digite o numero de visitas:");
 
-					check = String.valueOf(numero_visitas);
-
-					if (check != null && check.length() > 0 && checar.isNumeric(check) == true) {
+					if (check != null && check.length() > 0 && check.length() <= 7 && checar.isNumeric(check) == true) {
 						ok = true;
+					} else if (check.length() == 0 && check != null) {
+						throw new DigitouNada();
+					} else if (check != null && checar.isNumeric(check) == false) {
+						throw new NumberFormatException();
+					}else if(check.length() > 7){
+						throw new NumberFormatException();
 					}
-
-				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito ou não digitou nada!");
 				} catch (NullPointerException ex) {
 					cancelar = true;
 					saiu = true;
 					break;
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito!");
+				} catch (DigitouNada e) {
 				}
 			} while (ok == false);
 
 			if (cancelar == true) {
 				break;
+			} else {
+				numero_visitas = Integer.parseInt(check);
+				System.out.println(numero_visitas);
 			}
 
 			// RAMO DE ATUACAO DA EMPRESA DO CLIENTE
@@ -194,13 +215,16 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 			ramo = JOptionPane.showOptionDialog(null, "Escolha o ramo de atuação da empresa:", "Seguradora",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ramoEscolha, ramoEscolha[0]);
-
+			
 			if (ramo == 3) {
 				cancelar = true;
 				saiu = true;
 			}
-
-			cancelar = true;
+			if (cancelar == true) {
+				break;
+			}
+			
+			break;
 
 		} while (cancelar == false);
 
@@ -244,13 +268,13 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 			seguro += valor_imovel * 0.005;
 		}
 	}
-	
+
 	public void salvarCadastro() {
-		Pessoa c = new Pessoa(cliente, cnpj, seguro,false);
+		Pessoa c = new Pessoa(cliente, cnpj, seguro, false);
 
 		try {
 
-			FileOutputStream fos = new FileOutputStream(cnpj+".bin");
+			FileOutputStream fos = new FileOutputStream(cnpj + ".bin");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(c);
 
