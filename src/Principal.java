@@ -12,7 +12,7 @@ public class Principal extends Cliente {
 		int opcao = 0;
 
 		do {
-
+			
 			opcao = JOptionPane.showOptionDialog(null, "***SEGURADORA***", "Seguradora", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.WARNING_MESSAGE, null, menu, menu[0]);
 
@@ -39,7 +39,7 @@ public class Principal extends Cliente {
 
 			case 3:
 				break;
-
+				
 			}
 		} while (opcao != 3);
 	}
