@@ -8,6 +8,9 @@ public class ChecarEntrada  {
 	public boolean isNumeric (String s) {
 		try {
 			Long.parseLong (s);
+			if(s.indexOf(",") != -1){
+				  throw new NumberFormatException();
+			}
 		} catch (NumberFormatException ex) {
 			return false;
 		}

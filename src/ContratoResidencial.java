@@ -116,13 +116,14 @@ public class ContratoResidencial extends Cliente implements Interface {
 				try {
 					check = JOptionPane.showInputDialog("Digite o valor do imovel:");
 
-					if (check != null && check.length() > 0 && check.length() <= 19 && checar.isCurrency(check) == true) {
+					if (check != null && check.length() > 0 && check.length() <= 19 && checar.isCurrency(check) == true
+							&& check.indexOf(",") == -1) {
 						ok = true;
-					}else if (check.length() == 0 && check != null) {
+					} else if (check.length() == 0 && check != null) {
 						throw new DigitouNada();
 					} else if (check != null && checar.isNumeric(check) == false) {
 						throw new NumberFormatException();
-					}else if(check.length() > 19){
+					} else if (check.length() > 19 || check.indexOf(",") != -1) {
 						throw new NumberFormatException();
 					}
 				} catch (NumberFormatException ex) {
@@ -137,11 +138,10 @@ public class ContratoResidencial extends Cliente implements Interface {
 
 			if (cancelar == true) {
 				break;
-			}else{
+			} else {
 				valor_imovel = Float.parseFloat(check);
 				System.out.println(valor_imovel);
 			}
-
 
 			// ZONA ONDE ESTA O IMOVEL DO CLIENTE
 			////////////////////////////////////
@@ -196,11 +196,11 @@ public class ContratoResidencial extends Cliente implements Interface {
 	}
 
 	public void salvarCadastro() {
-		Pessoa c = new Pessoa(cliente, cpf, seguro,true);
+		Pessoa c = new Pessoa(cliente, cpf, seguro, true);
 
 		try {
 
-			FileOutputStream fos = new FileOutputStream(cpf+".bin");
+			FileOutputStream fos = new FileOutputStream(cpf + ".bin");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(c);
 

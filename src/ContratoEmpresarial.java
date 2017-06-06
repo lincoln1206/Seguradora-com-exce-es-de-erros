@@ -115,13 +115,14 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				try {
 					check = JOptionPane.showInputDialog("Digite o valor do imovel:");
 
-					if (check != null && check.length() > 0 && check.length() <= 13 && checar.isCurrency(check) == true) {
+					if (check != null && check.length() > 0 && check.length() <= 13 && checar.isCurrency(check) == true
+							&& check.indexOf(",") == -1) {
 						ok = true;
-					}else if (check.length() == 0 && check != null) {
+					} else if (check.length() == 0 && check != null) {
 						throw new DigitouNada();
 					} else if (check != null && checar.isNumeric(check) == false) {
 						throw new NumberFormatException();
-					}else if(check.length() > 13){
+					} else if (check.length() > 13 || check.indexOf(",") != -1) {
 						throw new NumberFormatException();
 					}
 				} catch (NumberFormatException ex) {
@@ -136,7 +137,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 			if (cancelar == true) {
 				break;
-			}else{
+			} else {
 				valor_imovel = Float.parseFloat(check);
 				System.out.println(valor_imovel);
 			}
@@ -155,7 +156,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 						throw new DigitouNada();
 					} else if (check != null && checar.isNumeric(check) == false) {
 						throw new NumberFormatException();
-					}else if(check.length() > 7){
+					} else if (check.length() > 7) {
 						throw new NumberFormatException();
 					}
 				} catch (NullPointerException ex) {
@@ -189,7 +190,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 						throw new DigitouNada();
 					} else if (check != null && checar.isNumeric(check) == false) {
 						throw new NumberFormatException();
-					}else if(check.length() > 7){
+					} else if (check.length() > 7) {
 						throw new NumberFormatException();
 					}
 				} catch (NullPointerException ex) {
@@ -215,7 +216,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 			ramo = JOptionPane.showOptionDialog(null, "Escolha o ramo de atuação da empresa:", "Seguradora",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ramoEscolha, ramoEscolha[0]);
-			
+
 			if (ramo == 3) {
 				cancelar = true;
 				saiu = true;
@@ -223,7 +224,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 			if (cancelar == true) {
 				break;
 			}
-			
+
 			break;
 
 		} while (cancelar == false);
