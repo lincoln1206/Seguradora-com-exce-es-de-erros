@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 
 public class ContratoEmpresarial extends Cliente implements Interface {
 	ChecarEntrada checar = new ChecarEntrada();
-	ValidarCPF_CNPJ vCNPJ = new ValidarCPF_CNPJ();
 
 	private long numero_funcionarios;
 	private long numero_visitas;
@@ -18,14 +17,14 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 	private String cnpj;
 	private String[] ramoA = { "Industria", "Comercio", "Agropecuaria" };
 	private String ramoM;
+	int i;
 
 	public void cadastro() {
 		do {
 			cancelar = false;
 			ok = false;
 			saiu = false;
-			// NOME DO CLIENTE
-			/////////////////
+			/* Entrada do nome do cliente */
 			do {
 				try {
 					cliente = JOptionPane.showInputDialog("Digite o nome do cliente:");
@@ -50,8 +49,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 			ok = false;
 
-			// CNPJ DO CLIENTE
-			//////////////////
+			/* Entrada do CNPJ do cliente */
 			do {
 				try {
 					cnpj = JOptionPane.showInputDialog("Digite o CNPJ do cliente:");
@@ -59,9 +57,9 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 					File check = new File(cnpj + ".txt");
 					if (check.exists() == true) {
 						throw new IOException();
-					} else if (vCNPJ.isValidCNPJ(cnpj) == true && cnpj != null && cnpj.length() > 0) {
+					} else if (checar.isValidCNPJ(cnpj) == true && cnpj != null && cnpj.length() > 0) {
 						ok = true;
-					} else if (vCNPJ.isValidCPF(cnpj) == false && cnpj.equals("") == false) {
+					} else if (cnpj != null && checar.isValidCPF(cnpj) == false) {
 						throw new CNPJinvalido();
 					} else if (cnpj.length() == 0) {
 						throw new DigitouNada();
@@ -83,9 +81,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 			ok = false;
 
-			// ENDERECO DO CLIENTE
-			/////////////////////
-
+			/* Entrada do endereço do cliente */
 			do {
 				try {
 					endereco = JOptionPane.showInputDialog("Digite o endereco do cliente:");
@@ -110,9 +106,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 			ok = false;
 
-			// VALOR DO IMOVEL DO CLIENTE
-			////////////////////////////
-
+			/* Entrada do valor do imóvel do cliente */
 			do {
 				try {
 					check = JOptionPane.showInputDialog("Digite o valor do imovel:");
@@ -136,8 +130,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 			ok = false;
 
-			// NUMERO DE FUNCIONARIOS DA EMPRESA DO CLIENTE
-			//////////////////////////////////////////////
+			/* Entrada do nº de funcionários da empresa do cliente */
 			do {
 				try {
 					check = JOptionPane.showInputDialog("Digite o numero de funcionarios:");
@@ -161,8 +154,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 			ok = false;
 
-			// NUMERO DE VISITAS DIARIAS A EMPRESA DO CLEINTE
-			////////////////////////////////////////////////
+			/* Entrada do nº de visitas diárias a empresa do cliente */
 			do {
 				try {
 					check = JOptionPane.showInputDialog("Digite o numero de visitas:");
@@ -184,22 +176,34 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				System.out.println(numero_visitas);
 			}
 
-			// RAMO DE ATUACAO DA EMPRESA DO CLIENTE
-			///////////////////////////////////////
+			/* Entrada para ramo de atuação da empresa do cliente */
 			Object[] ramoEscolha = { "Industria", "Comercio", "Agropecuaria", "Cancelar" };
 
 			ramo = JOptionPane.showOptionDialog(null, "Escolha o ramo de atuação da empresa:", "Seguradora",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ramoEscolha, ramoEscolha[0]);
+
+			/*
+			 * Verifica qual ramo o usuário escolheu e busca na String ramoA[] a
+			 * String correspondente
+			 */
+			for (i = 0; i <= 2; i++) {
+				if (ramo == i) {
+					ramoM = ramoA[i];
+				}
+			}
 
 			if (ramo == 3) {
 				cancelar = true;
 				saiu = true;
 			}
 
+			break;
+
 		} while (cancelar == false);
 
 	}
 
+	/* Calcula o valor do seguro empresarial */
 	public void calculoSeguroEmpresarial() {
 		seguro += valor_imovel * 0.04;
 
@@ -239,12 +243,14 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 		}
 	}
 
+	/* Salva cadastro em ".bin" */
 	public void salvarCadastro() {
-		Pessoa c = new Pessoa(cliente, cnpj, seguro, false);
+		PessoaJuridica c = new PessoaJuridica(cliente, cnpj, endereco, seguro, numero_funcionarios, numero_funcionarios,
+				ramoM, seguro, fezContrato);
 
 		try {
 
-			FileOutputStream fos = new FileOutputStream(cnpj + ".bin");
+			FileOutputStream fos = new FileOutputStream(cnpj + ".PessoaJuridica.bin");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(c);
 
@@ -255,20 +261,16 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 		}
 	}
 
+	/* Gerador de contrato */
 	public void gerarContrato() {
+		/* Formata o valor para nossa moeda */
 		NumberFormat f = NumberFormat.getCurrencyInstance();
 
 		try {
-			int i;
-
-			for (i = 0; i <= 2; i++) {
-				if (ramo == i) {
-					ramoM = ramoA[i];
-				}
-			}
-
+			/* Pergunta se o usuário quer gerar o contrato */
 			int opcao = JOptionPane.showOptionDialog(null, "Clique na operação a qual deseja realizar:", "Operação",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+			/* if salva arquivo */
 			if (opcao == 0) {
 
 				FileWriter arq = new FileWriter(cnpj + ".txt");
@@ -279,9 +281,13 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 						+ "%nValor do seguro: " + f.format(seguro));
 
 				JOptionPane.showMessageDialog(null, "Contrato salvo com sucesso como " + cnpj + ".txt !");
+				fezContrato = true;
 				arq.close();
 
-			} else if (opcao == 1) {
+			} else if (opcao == 1) {/*
+									 * if não salva arquivo e retorna ao menu
+									 * principal
+									 */
 				JOptionPane.showMessageDialog(null, "Você não gerou o contrato!\nClique em OK para retornar ao menu");
 
 			}

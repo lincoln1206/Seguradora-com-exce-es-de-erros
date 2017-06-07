@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 
 public class ContratoResidencial extends Cliente implements Interface {
 	ChecarEntrada checar = new ChecarEntrada();
-	ValidarCPF_CNPJ vCPF = new ValidarCPF_CNPJ();
 
 	private int zona;
 	private int tipo;
@@ -18,14 +17,14 @@ public class ContratoResidencial extends Cliente implements Interface {
 	private String[] zonaA = { "Urbana", "Suburbana", "Rural" };
 	private String tipoM;
 	private String zonaM;
+	int i;
 
 	public void cadastro() {
 		do {
 			cancelar = false;
 			ok = false;
 			saiu = false;
-			// NOME DO CLIENTE
-			/////////////////
+			/* Entrada do nome do cliente */
 			do {
 				try {
 					cliente = JOptionPane.showInputDialog("Digite o nome do cliente:");
@@ -50,9 +49,7 @@ public class ContratoResidencial extends Cliente implements Interface {
 
 			ok = false;
 
-			// CPF DO CLIENTE
-			////////////////
-
+			/* Entrada do CPF do cliente */
 			do {
 				try {
 					cpf = JOptionPane.showInputDialog("Digite o CPF do cliente:");
@@ -60,9 +57,9 @@ public class ContratoResidencial extends Cliente implements Interface {
 					File check = new File(cpf + ".txt");
 					if (check.exists() == true) {
 						throw new IOException();
-					} else if (vCPF.isValidCPF(cpf) == true && cpf != null && cpf.length() > 0) {
+					} else if (checar.isValidCPF(cpf) == true && cpf != null && cpf.length() > 0) {
 						ok = true;
-					} else if (cpf != null && vCPF.isValidCPF(cpf) == false) {
+					} else if (cpf != null && checar.isValidCPF(cpf) == false) {
 						throw new CPFinvalido();
 					} else if (cpf.length() == 0) {
 						throw new DigitouNada();
@@ -84,9 +81,7 @@ public class ContratoResidencial extends Cliente implements Interface {
 
 			ok = false;
 
-			// ENDERECO DO CLIENTE
-			/////////////////////
-
+			/* Entrada do endereço do cliente */
 			do {
 				try {
 					endereco = JOptionPane.showInputDialog("Digite o endereco do cliente:");
@@ -111,9 +106,7 @@ public class ContratoResidencial extends Cliente implements Interface {
 
 			ok = false;
 
-			// VALOR DO IMOVEL DO CLIENTE
-			////////////////////////////
-
+			/* Entrada do valor do imóvel do cliente */
 			do {
 				try {
 					check = JOptionPane.showInputDialog("Digite o valor do imovel:");
@@ -135,13 +128,21 @@ public class ContratoResidencial extends Cliente implements Interface {
 				System.out.println(valor_imovel);
 			}
 
-			// ZONA ONDE ESTA O IMOVEL DO CLIENTE
-			////////////////////////////////////
-
+			/*Entrada da zona da residencia do cliente*/
 			Object[] zonaEscolha = { "Urbana", "Suburbana", "Rural", "Cancelar" };
 
 			zona = JOptionPane.showOptionDialog(null, "Escolha a zona aonde a habitação se encontra:", "Seguradora",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, zonaEscolha, zonaEscolha[0]);
+
+			/*
+			 * Verifica qual zona o usuário escolheu e busca na String ramoA[] a
+			 * String correspondente
+			 */
+			for (i = 0; i <= 2; i++) {
+				if (zona == i) {
+					zonaM = zonaA[i];
+				}
+			}
 
 			if (zona == 3) {
 				cancelar = true;
@@ -152,22 +153,34 @@ public class ContratoResidencial extends Cliente implements Interface {
 				break;
 			}
 
-			// TIPO DA RERSIDENCIA DO CLEINTE
-			////////////////////////////////
+			/*Entrada do tipo de residência do cliente*/
 			Object[] tipoEscolha = { "Casa", "Apartamento", "Cancelar" };
 
 			tipo = JOptionPane.showOptionDialog(null, "Escolha o tipo da habitação:", "Seguradora",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, tipoEscolha, tipoEscolha[0]);
+
+			/*
+			 * Verifica qual tipo o usuário escolheu e busca na String ramoA[] a
+			 * String correspondente
+			 */
+			for (i = 0; i <= 1; i++) {
+				if (tipo == i) {
+					tipoM = tipoA[i];
+				}
+			}
 
 			if (tipo == 2) {
 				cancelar = true;
 				saiu = true;
 			}
 
+			break;
+
 		} while (cancelar == false);
 
 	}
 
+	/* Calcula o valor do seguro residencial */
 	public void calculoSeguroResidencial() {
 
 		seguro += valor_imovel * 0.01;
@@ -184,13 +197,14 @@ public class ContratoResidencial extends Cliente implements Interface {
 			seguro += valor_imovel * 0.005;
 		}
 	}
-
+	
+	/* Salva cadastro em ".bin" */
 	public void salvarCadastro() {
-		Pessoa c = new Pessoa(cliente, cpf, seguro, true);
+		PessoaFisica c = new PessoaFisica(cliente, cpf, endereco, valor_imovel, zonaM, tipoM, seguro, fezContrato);
 
 		try {
 
-			FileOutputStream fos = new FileOutputStream(cpf + ".bin");
+			FileOutputStream fos = new FileOutputStream(cpf + ".PessoaFisica.bin");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(c);
 
@@ -201,27 +215,17 @@ public class ContratoResidencial extends Cliente implements Interface {
 		}
 	}
 
+	/* Gerador de contrato */
 	public void gerarContrato() {
+		/* Formata o valor para nossa moeda */
 		NumberFormat f = NumberFormat.getCurrencyInstance();
 
 		try {
 
-			int i;
-
-			for (i = 0; i <= 2; i++) {
-				if (zona == i) {
-					zonaM = zonaA[i];
-				}
-			}
-
-			for (i = 0; i <= 1; i++) {
-				if (tipo == i) {
-					tipoM = tipoA[i];
-				}
-			}
-
+			/* Pergunta se o usuário quer gerar o contrato */
 			int opcao = JOptionPane.showOptionDialog(null, "Clique na operação a qual deseja realizar:", "Operação",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+			/* if salva arquivo */
 			if (opcao == 0) {
 
 				FileWriter arq = new FileWriter(cpf + ".txt");
@@ -231,9 +235,13 @@ public class ContratoResidencial extends Cliente implements Interface {
 						+ f.format(valor_imovel) + "%nValor do seguro: " + f.format(seguro));
 
 				JOptionPane.showMessageDialog(null, "Contrato salvo com sucesso como " + cpf + ".txt !");
+				fezContrato = true;
 				arq.close();
 
-			} else if (opcao == 1) {
+			} else if (opcao == 1) {/*
+									 * if não salva arquivo e retorna ao menu
+									 * principal
+									 */
 				JOptionPane.showMessageDialog(null, "Você não gerou o contrato!\nClique em OK para retornar ao menu");
 			}
 		} catch (IOException e) {
