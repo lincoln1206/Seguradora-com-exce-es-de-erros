@@ -30,16 +30,13 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				try {
 					cliente = JOptionPane.showInputDialog("Digite o nome do cliente:");
 
-					if (cliente != null && cliente.length() > 0) {
+					if (checar.checkString(cliente)==true) {
 						ok = true;
-					} else if (cliente.length() == 0 && cliente != null) {
-						throw new DigitouNada();
 					}
 				} catch (NullPointerException ex) {
 					cancelar = true;
 					saiu = true;
 					break;
-				} catch (DigitouNada e) {
 				}
 			} while (ok == false);
 
@@ -89,16 +86,13 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				try {
 					endereco = JOptionPane.showInputDialog("Digite o endereco do cliente:");
 
-					if (endereco != null && endereco.length() > 0) {
+					if (checar.checkString(endereco)==true) {
 						ok = true;
-					} else if (endereco.length() == 0 && endereco != null) {
-						throw new DigitouNada();
 					}
 				} catch (NullPointerException ex) {
 					cancelar = true;
 					saiu = true;
 					break;
-				} catch (DigitouNada e) {
 				}
 			} while (ok == false);
 
@@ -115,23 +109,13 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				try {
 					check = JOptionPane.showInputDialog("Digite o valor do imovel:");
 
-					if (check != null && check.length() > 0 && check.length() <= 13 && checar.isCurrency(check) == true
-							&& check.indexOf(",") == -1) {
+					if (checar.isCurrency(check) == true) {
 						ok = true;
-					} else if (check.length() == 0 && check != null) {
-						throw new DigitouNada();
-					} else if (check != null && checar.isNumeric(check) == false) {
-						throw new NumberFormatException();
-					} else if (check.length() > 13 || check.indexOf(",") != -1) {
-						throw new NumberFormatException();
 					}
-				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito!");
 				} catch (NullPointerException ex) {
 					cancelar = true;
 					saiu = true;
 					break;
-				} catch (DigitouNada e) {
 				}
 			} while (ok == false);
 
@@ -150,22 +134,13 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				try {
 					check = JOptionPane.showInputDialog("Digite o numero de funcionarios:");
 
-					if (check != null && check.length() > 0 && check.length() <= 7 && checar.isNumeric(check) == true) {
+					if (checar.isNumeric(check) == true) {
 						ok = true;
-					} else if (check.length() == 0 && check != null) {
-						throw new DigitouNada();
-					} else if (check != null && checar.isNumeric(check) == false) {
-						throw new NumberFormatException();
-					} else if (check.length() > 7) {
-						throw new NumberFormatException();
-					}
+					} 
 				} catch (NullPointerException ex) {
 					cancelar = true;
 					saiu = true;
 					break;
-				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito!");
-				} catch (DigitouNada e) {
 				}
 			} while (ok == false);
 
@@ -184,22 +159,13 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				try {
 					check = JOptionPane.showInputDialog("Digite o numero de visitas:");
 
-					if (check != null && check.length() > 0 && check.length() <= 7 && checar.isNumeric(check) == true) {
+					if (checar.isNumeric(check) == true) {
 						ok = true;
-					} else if (check.length() == 0 && check != null) {
-						throw new DigitouNada();
-					} else if (check != null && checar.isNumeric(check) == false) {
-						throw new NumberFormatException();
-					} else if (check.length() > 7) {
-						throw new NumberFormatException();
 					}
 				} catch (NullPointerException ex) {
 					cancelar = true;
 					saiu = true;
 					break;
-				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito!");
-				} catch (DigitouNada e) {
 				}
 			} while (ok == false);
 
@@ -221,11 +187,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				cancelar = true;
 				saiu = true;
 			}
-			if (cancelar == true) {
-				break;
-			}
 
-			break;
 
 		} while (cancelar == false);
 

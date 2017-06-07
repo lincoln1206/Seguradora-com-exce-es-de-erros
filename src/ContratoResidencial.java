@@ -116,23 +116,13 @@ public class ContratoResidencial extends Cliente implements Interface {
 				try {
 					check = JOptionPane.showInputDialog("Digite o valor do imovel:");
 
-					if (check != null && check.length() > 0 && check.length() <= 19 && checar.isCurrency(check) == true
-							&& check.indexOf(",") == -1) {
+					if (checar.isCurrency(check)) {
 						ok = true;
-					} else if (check.length() == 0 && check != null) {
-						throw new DigitouNada();
-					} else if (check != null && checar.isNumeric(check) == false) {
-						throw new NumberFormatException();
-					} else if (check.length() > 19 || check.indexOf(",") != -1) {
-						throw new NumberFormatException();
 					}
-				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "Você digitou um valor não aceito!");
 				} catch (NullPointerException ex) {
 					cancelar = true;
 					saiu = true;
 					break;
-				} catch (DigitouNada e) {
 				}
 			} while (ok == false);
 
@@ -171,8 +161,6 @@ public class ContratoResidencial extends Cliente implements Interface {
 				cancelar = true;
 				saiu = true;
 			}
-
-			cancelar = true;
 
 		} while (cancelar == false);
 
