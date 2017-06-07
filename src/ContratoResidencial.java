@@ -39,7 +39,8 @@ public class ContratoResidencial extends Cliente implements Interface {
 					cancelar = true;
 					saiu = true;
 					break;
-				} catch (DigitouNada e) {
+				} catch (DigitouNada ex) {
+
 				}
 			} while (ok == false);
 
@@ -61,7 +62,7 @@ public class ContratoResidencial extends Cliente implements Interface {
 						throw new IOException();
 					} else if (vCPF.isValidCPF(cpf) == true && cpf != null && cpf.length() > 0) {
 						ok = true;
-					} else if (vCPF.isValidCPF(cpf) == false && cpf.equals("") == false) {
+					} else if (cpf != null && vCPF.isValidCPF(cpf) == false) {
 						throw new CPFinvalido();
 					} else if (cpf.length() == 0) {
 						throw new DigitouNada();
@@ -99,7 +100,8 @@ public class ContratoResidencial extends Cliente implements Interface {
 					cancelar = true;
 					saiu = true;
 					break;
-				} catch (DigitouNada e) {
+				} catch (DigitouNada ex) {
+
 				}
 			} while (ok == false);
 

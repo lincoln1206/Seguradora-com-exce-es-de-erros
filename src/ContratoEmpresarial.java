@@ -30,13 +30,17 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				try {
 					cliente = JOptionPane.showInputDialog("Digite o nome do cliente:");
 
-					if (checar.checkString(cliente)==true) {
+					if (cliente != null && cliente.length() > 0) {
 						ok = true;
+					} else if (cliente.length() == 0 && cliente != null) {
+						throw new DigitouNada();
 					}
 				} catch (NullPointerException ex) {
 					cancelar = true;
 					saiu = true;
 					break;
+				} catch (DigitouNada ex) {
+
 				}
 			} while (ok == false);
 
@@ -86,13 +90,17 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				try {
 					endereco = JOptionPane.showInputDialog("Digite o endereco do cliente:");
 
-					if (checar.checkString(endereco)==true) {
+					if (endereco != null && endereco.length() > 0) {
 						ok = true;
+					} else if (endereco.length() == 0 && endereco != null) {
+						throw new DigitouNada();
 					}
 				} catch (NullPointerException ex) {
 					cancelar = true;
 					saiu = true;
 					break;
+				} catch (DigitouNada ex) {
+
 				}
 			} while (ok == false);
 
@@ -136,7 +144,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 					if (checar.isNumeric(check) == true) {
 						ok = true;
-					} 
+					}
 				} catch (NullPointerException ex) {
 					cancelar = true;
 					saiu = true;
@@ -187,7 +195,6 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				cancelar = true;
 				saiu = true;
 			}
-
 
 		} while (cancelar == false);
 

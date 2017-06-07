@@ -70,19 +70,5 @@ public class ChecarEntrada {//CLASSE QUE CHECA AS ENTRADAS
 		}
 		return true;
 	}
-	
-	public boolean checkString(String s){//CHECA SE O USUÁRIO DIGITOU ALGO
-		try {
-			if (s != null && s.length() > 0) {
-				return true;
-			} else if (s.length() == 0 && s != null) {
-				throw new DigitouNada();
-			}
-		} catch (DigitouNada e) {
-			return false;
-		}
-		return true;
-		
-	}
 
 }
