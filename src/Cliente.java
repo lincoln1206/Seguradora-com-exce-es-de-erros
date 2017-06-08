@@ -108,7 +108,7 @@ public class Cliente {
 
 						/* Pergunta se o usuário quer gerar o contrato */
 						int opcao = JOptionPane.showOptionDialog(null,
-								"Cliente " + lerPF.getCliente() + "de CPF " + lerPF.getCpf()
+								"Cliente " + lerPF.getCliente() + " de CPF : " + lerPF.getCpf()
 										+ " não tem contrato...\nDeseja gerar um?",
 								"Operação", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, escolha,
 								escolha[0]);
