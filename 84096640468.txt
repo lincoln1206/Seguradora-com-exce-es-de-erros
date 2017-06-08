@@ -1,0 +1,9 @@
+**CONTRATO**
+
+Nome do cliente: Lincoln
+CPF: 84096640468
+Endereço: rua da areia
+Tipo de residência: Urbana
+Zona: Casa
+Valor do imóvel: R$ 800.000,00
+Valor do seguro: R$ 20.000,00

@@ -4,7 +4,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import java.text.NumberFormat;
 import javax.swing.JOptionPane;
 
 public class ContratoResidencial extends Cliente implements Interface {
@@ -125,7 +124,6 @@ public class ContratoResidencial extends Cliente implements Interface {
 				break;
 			} else {
 				valor_imovel = Float.parseFloat(check);
-				System.out.println(valor_imovel);
 			}
 
 			/*Entrada da zona da residencia do cliente*/
@@ -217,8 +215,6 @@ public class ContratoResidencial extends Cliente implements Interface {
 
 	/* Gerador de contrato */
 	public void gerarContrato() {
-		/* Formata o valor para nossa moeda */
-		NumberFormat f = NumberFormat.getCurrencyInstance();
 
 		try {
 
@@ -245,7 +241,7 @@ public class ContratoResidencial extends Cliente implements Interface {
 				JOptionPane.showMessageDialog(null, "Você não gerou o contrato!\nClique em OK para retornar ao menu");
 			}
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Erro ao salvar contrato!");
+			JOptionPane.showMessageDialog(null, "Erro ao gerar contrato!");
 		}
 	}
 

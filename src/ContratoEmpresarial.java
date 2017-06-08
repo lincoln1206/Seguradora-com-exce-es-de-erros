@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.text.NumberFormat;
-
 import javax.swing.JOptionPane;
 
 public class ContratoEmpresarial extends Cliente implements Interface {
@@ -125,7 +123,6 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				break;
 			} else {
 				valor_imovel = Float.parseFloat(check);
-				System.out.println(valor_imovel);
 			}
 
 			ok = false;
@@ -149,7 +146,6 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				break;
 			} else {
 				numero_funcionarios = Integer.parseInt(check);
-				System.out.println(numero_funcionarios);
 			}
 
 			ok = false;
@@ -173,7 +169,6 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 				break;
 			} else {
 				numero_visitas = Integer.parseInt(check);
-				System.out.println(numero_visitas);
 			}
 
 			/* Entrada para ramo de atuação da empresa do cliente */
@@ -245,7 +240,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 	/* Salva cadastro em ".bin" */
 	public void salvarCadastro() {
-		PessoaJuridica c = new PessoaJuridica(cliente, cnpj, endereco, seguro, numero_funcionarios, numero_funcionarios,
+		PessoaJuridica c = new PessoaJuridica(cliente, cnpj, endereco, valor_imovel, numero_funcionarios, numero_visitas,
 				ramoM, seguro, fezContrato);
 
 		try {
@@ -263,9 +258,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 	/* Gerador de contrato */
 	public void gerarContrato() {
-		/* Formata o valor para nossa moeda */
-		NumberFormat f = NumberFormat.getCurrencyInstance();
-
+	
 		try {
 			/* Pergunta se o usuário quer gerar o contrato */
 			int opcao = JOptionPane.showOptionDialog(null, "Clique na operação a qual deseja realizar:", "Operação",
@@ -292,7 +285,7 @@ public class ContratoEmpresarial extends Cliente implements Interface {
 
 			}
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Erro ao salvar contrato!");
+			JOptionPane.showMessageDialog(null, "Erro ao gerar contrato!");
 		}
 
 	}
